@@ -34,6 +34,12 @@ def startScreen():
 
 def gameScreen():
     screen.fill(BLACK)
+    # lines
+    pygame.draw.line(surface=screen, color=WHITE, start_pos=(100, 300), end_pos=(700, 300), width=5)
+    pygame.draw.line(surface=screen, color=WHITE, start_pos=(100, 500), end_pos=(700, 500), width=5)
+    pygame.draw.line(surface=screen, color=WHITE, start_pos=(300, 100), end_pos=(300, 700), width=5)
+    pygame.draw.line(surface=screen, color=WHITE, start_pos=(500, 100), end_pos=(500, 700), width=5)
+
     pygame.display.flip()
 
 
