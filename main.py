@@ -1,5 +1,7 @@
 import pygame
+import time
 import classes
+import logic
 
 pygame.init()
 
@@ -16,21 +18,23 @@ FONT_h1 = pygame.font.SysFont("Arial", 70)
 FONT_h2 = pygame.font.SysFont("Arial", 40)
 
 # buttons
-btn1_1 = pygame.Rect(105, 105, 190, 190)
-btn1_2 = pygame.Rect(305, 105, 190, 190)
-btn1_3 = pygame.Rect(505, 105, 190, 190)
+btn1_1 = classes.cell(pygame.Rect(105, 105, 190, 190), "f", 1)
+btn1_2 = classes.cell(pygame.Rect(305, 105, 190, 190), "f", 2)
+btn1_3 = classes.cell(pygame.Rect(505, 105, 190, 190), "f", 3)
 
-btn2_1 = pygame.Rect(105, 305, 190, 190)
-btn2_2 = pygame.Rect(305, 305, 190, 190)
-btn2_3 = pygame.Rect(505, 305, 190, 190)
+btn2_1 = classes.cell(pygame.Rect(105, 305, 190, 190), "f", 4)
+btn2_2 = classes.cell(pygame.Rect(305, 305, 190, 190), "f", 5)
+btn2_3 = classes.cell(pygame.Rect(505, 305, 190, 190), "f", 6)
 
-btn3_1 = pygame.Rect(105, 505, 190, 190)
-btn3_2 = pygame.Rect(305, 505, 190, 190)
-btn3_3 = pygame.Rect(505, 505, 190, 190)
+btn3_1 = classes.cell(pygame.Rect(105, 505, 190, 190), "f", 7)
+btn3_2 = classes.cell(pygame.Rect(305, 505, 190, 190), "f", 8)
+btn3_3 = classes.cell(pygame.Rect(505, 505, 190, 190), "f", 9)
+
+allBtns = [btn1_1, btn1_2, btn1_3, btn2_1, btn2_2, btn2_3, btn3_1, btn3_2, btn3_3]
 
 # player
-user = classes.player("o")
-enemy = classes.player("x")
+user = classes.player("p")
+enemy = classes.player("e")
 
 
 # functions
@@ -51,22 +55,24 @@ def startScreen():
 
 
 def drawPlayer(button):
-    center = button.center
-    radius = min(button.width, button.height) // 2 - 15
+    center = button.pos.center
+    radius = min(button.pos.width, button.pos.height) // 2 - 15
     pygame.draw.circle(screen, WHITE, center, radius, 10)
     pygame.display.flip()
 
 
 def drawEnemy(button):
-    sPos1 = (button.left + 15, button.top + 15)
-    ePos1 = (button.left + button.width - 15, button.top + button.height - 15)
+    time.sleep(2)
+    sPos1 = (button.pos.left + 15, button.pos.top + 15)
+    ePos1 = (button.pos.left + button.pos.width - 15, button.pos.top + button.pos.height - 15)
 
-    sPos2 = (button.left + button.width - 15, button.top + 15)
-    ePos2 = (button.left + 15, button.top + button.height - 15)
+    sPos2 = (button.pos.left + button.pos.width - 15, button.pos.top + 15)
+    ePos2 = (button.pos.left + 15, button.pos.top + button.pos.height - 15)
 
     pygame.draw.line(screen, WHITE, sPos1, ePos1, 15)
     pygame.draw.line(screen, WHITE, sPos2, ePos2, 15)
     pygame.display.flip()
+    user.move = True
 
 
 def gameScreen():
@@ -77,15 +83,15 @@ def gameScreen():
     pygame.draw.line(surface=screen, color=WHITE, start_pos=(300, 100), end_pos=(300, 700), width=5)
     pygame.draw.line(surface=screen, color=WHITE, start_pos=(500, 100), end_pos=(500, 700), width=5)
     # buttons
-    pygame.draw.rect(screen, BLACK, btn1_1)
-    pygame.draw.rect(screen, BLACK, btn1_2)
-    pygame.draw.rect(screen, BLACK, btn1_3)
-    pygame.draw.rect(screen, BLACK, btn2_1)
-    pygame.draw.rect(screen, BLACK, btn2_2)
-    pygame.draw.rect(screen, BLACK, btn2_3)
-    pygame.draw.rect(screen, BLACK, btn3_1)
-    pygame.draw.rect(screen, BLACK, btn3_2)
-    pygame.draw.rect(screen, BLACK, btn3_3)
+    pygame.draw.rect(screen, BLACK, btn1_1.pos)
+    pygame.draw.rect(screen, BLACK, btn1_2.pos)
+    pygame.draw.rect(screen, BLACK, btn1_3.pos)
+    pygame.draw.rect(screen, BLACK, btn2_1.pos)
+    pygame.draw.rect(screen, BLACK, btn2_2.pos)
+    pygame.draw.rect(screen, BLACK, btn2_3.pos)
+    pygame.draw.rect(screen, BLACK, btn3_1.pos)
+    pygame.draw.rect(screen, BLACK, btn3_2.pos)
+    pygame.draw.rect(screen, BLACK, btn3_3.pos)
 
     pygame.display.flip()
 
@@ -108,32 +114,41 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             # move - player
             if user.move:
-                if btn1_1.collidepoint(event.pos):
+                if btn1_1.pos.collidepoint(event.pos) and btn1_1.taken == "f":
                     drawPlayer(btn1_1)
+                    btn1_1.taken = "p"
                     user.move = False
-                if btn1_2.collidepoint(event.pos):
+                if btn1_2.pos.collidepoint(event.pos) and btn1_2.taken == "f":
                     drawPlayer(btn1_2)
+                    btn1_2.taken = "p"
                     user.move = False
-                if btn1_3.collidepoint(event.pos):
+                if btn1_3.pos.collidepoint(event.pos) and btn1_3.taken == "f":
                     drawPlayer(btn1_3)
+                    btn1_3.taken = "p"
                     user.move = False
-                if btn2_1.collidepoint(event.pos):
+                if btn2_1.pos.collidepoint(event.pos) and btn2_1.taken == "f":
                     drawPlayer(btn2_1)
+                    btn2_1.taken = "p"
                     user.move = False
-                if btn2_2.collidepoint(event.pos):
+                if btn2_2.pos.collidepoint(event.pos) and btn2_2.taken == "f":
                     drawPlayer(btn2_2)
+                    btn2_2.taken = "p"
                     user.move = False
-                if btn2_3.collidepoint(event.pos):
+                if btn2_3.pos.collidepoint(event.pos) and btn2_3.taken == "f":
                     drawPlayer(btn2_3)
+                    btn2_3.taken = "p"
                     user.move = False
-                if btn3_1.collidepoint(event.pos):
+                if btn3_1.pos.collidepoint(event.pos) and btn3_1.taken == "f":
                     drawPlayer(btn3_1)
+                    btn3_1.taken = "p"
                     user.move = False
-                if btn3_2.collidepoint(event.pos):
+                if btn3_2.pos.collidepoint(event.pos) and btn3_2.taken == "f":
                     drawPlayer(btn3_2)
+                    btn3_2.taken = "p"
                     user.move = False
-                if btn3_3.collidepoint(event.pos):
+                if btn3_3.pos.collidepoint(event.pos) and btn3_3.taken == "f":
                     drawPlayer(btn3_3)
+                    btn3_3.taken = "p"
                     user.move = False
 
 
