@@ -1,4 +1,4 @@
-class player():
+class Player():
 
     def __init__(self, id: str) -> None:
         self.id = id
@@ -6,7 +6,7 @@ class player():
         self.win = False
 
 
-class cell():
+class Cell():
 
     def __init__(self, pos, taken: str, num: int) -> None:    # taken = f: free; p: player; e: enemy
         self.pos = pos
