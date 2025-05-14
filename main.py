@@ -18,23 +18,23 @@ FONT_h1 = pygame.font.SysFont("Arial", 70)
 FONT_h2 = pygame.font.SysFont("Arial", 40)
 
 # buttons
-btn1_1 = classes.cell(pygame.Rect(105, 105, 190, 190), "f", 1)
-btn1_2 = classes.cell(pygame.Rect(305, 105, 190, 190), "f", 2)
-btn1_3 = classes.cell(pygame.Rect(505, 105, 190, 190), "f", 3)
+btn1_1 = classes.Cell(pygame.Rect(105, 105, 190, 190), "f", 1)
+btn1_2 = classes.Cell(pygame.Rect(305, 105, 190, 190), "f", 2)
+btn1_3 = classes.Cell(pygame.Rect(505, 105, 190, 190), "f", 3)
 
-btn2_1 = classes.cell(pygame.Rect(105, 305, 190, 190), "f", 4)
-btn2_2 = classes.cell(pygame.Rect(305, 305, 190, 190), "f", 5)
-btn2_3 = classes.cell(pygame.Rect(505, 305, 190, 190), "f", 6)
+btn2_1 = classes.Cell(pygame.Rect(105, 305, 190, 190), "f", 4)
+btn2_2 = classes.Cell(pygame.Rect(305, 305, 190, 190), "f", 5)
+btn2_3 = classes.Cell(pygame.Rect(505, 305, 190, 190), "f", 6)
 
-btn3_1 = classes.cell(pygame.Rect(105, 505, 190, 190), "f", 7)
-btn3_2 = classes.cell(pygame.Rect(305, 505, 190, 190), "f", 8)
-btn3_3 = classes.cell(pygame.Rect(505, 505, 190, 190), "f", 9)
+btn3_1 = classes.Cell(pygame.Rect(105, 505, 190, 190), "f", 7)
+btn3_2 = classes.Cell(pygame.Rect(305, 505, 190, 190), "f", 8)
+btn3_3 = classes.Cell(pygame.Rect(505, 505, 190, 190), "f", 9)
 
 allBtns = [btn1_1, btn1_2, btn1_3, btn2_1, btn2_2, btn2_3, btn3_1, btn3_2, btn3_3]
 
 # player
-user = classes.player("p")
-enemy = classes.player("e")
+user = classes.Player("p")
+enemy = classes.Player("e")
 
 
 # functions
