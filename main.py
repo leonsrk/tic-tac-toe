@@ -33,7 +33,8 @@ btn3_3 = classes.Cell(pygame.Rect(505, 505, 190, 190), "f", 9)
 allBtns = [btn1_1, btn1_2, btn1_3, btn2_1, btn2_2, btn2_3, btn3_1, btn3_2, btn3_3]
 
 # player
-user = classes.Player("p")
+user = classes.Player("p", True)
+userCells: list[classes.Cell] = []
 enemy = classes.Player("e")
 
 
@@ -96,6 +97,16 @@ def gameScreen():
     pygame.display.flip()
 
 
+def enemyMove(cells: list):
+    """Starts enemy move
+    Args:
+        cells (list): var allBtns
+    """
+    user.move = False
+    print("userCells:", userCells)
+    logic.possibleMoves(cells)
+
+
 # main loop
 running = True
 startScreen()
@@ -117,39 +128,48 @@ while running:
                 if btn1_1.pos.collidepoint(event.pos) and btn1_1.taken == "f":
                     drawPlayer(btn1_1)
                     btn1_1.taken = "p"
-                    user.move = False
+                    userCells.append(btn1_1)
+                    enemyMove(allBtns)
                 if btn1_2.pos.collidepoint(event.pos) and btn1_2.taken == "f":
                     drawPlayer(btn1_2)
                     btn1_2.taken = "p"
-                    user.move = False
+                    userCells.append(btn1_2)
+                    enemyMove(allBtns)
                 if btn1_3.pos.collidepoint(event.pos) and btn1_3.taken == "f":
                     drawPlayer(btn1_3)
                     btn1_3.taken = "p"
-                    user.move = False
+                    userCells.append(btn1_3)
+                    enemyMove(allBtns)
                 if btn2_1.pos.collidepoint(event.pos) and btn2_1.taken == "f":
                     drawPlayer(btn2_1)
+                    userCells.append(btn2_1)
                     btn2_1.taken = "p"
-                    user.move = False
+                    enemyMove(allBtns)
                 if btn2_2.pos.collidepoint(event.pos) and btn2_2.taken == "f":
                     drawPlayer(btn2_2)
                     btn2_2.taken = "p"
-                    user.move = False
+                    userCells.append(btn2_2)
+                    enemyMove(allBtns)
                 if btn2_3.pos.collidepoint(event.pos) and btn2_3.taken == "f":
                     drawPlayer(btn2_3)
+                    userCells.append(btn2_3)
                     btn2_3.taken = "p"
-                    user.move = False
+                    enemyMove(allBtns)
                 if btn3_1.pos.collidepoint(event.pos) and btn3_1.taken == "f":
                     drawPlayer(btn3_1)
                     btn3_1.taken = "p"
-                    user.move = False
+                    userCells.append(btn3_1)
+                    enemyMove(allBtns)
                 if btn3_2.pos.collidepoint(event.pos) and btn3_2.taken == "f":
                     drawPlayer(btn3_2)
                     btn3_2.taken = "p"
-                    user.move = False
+                    userCells.append(btn3_2)
+                    enemyMove(allBtns)
                 if btn3_3.pos.collidepoint(event.pos) and btn3_3.taken == "f":
                     drawPlayer(btn3_3)
                     btn3_3.taken = "p"
-                    user.move = False
+                    userCells.append(btn3_3)
+                    enemyMove(allBtns)
 
 
 pygame.quit()
