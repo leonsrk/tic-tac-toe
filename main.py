@@ -2,6 +2,7 @@ import pygame
 import time
 import classes
 import logic
+from loggerconfig import logger
 
 pygame.init()
 
@@ -36,6 +37,7 @@ allBtns = [btn1_1, btn1_2, btn1_3, btn2_1, btn2_2, btn2_3, btn3_1, btn3_2, btn3_
 user = classes.Player("p", True)
 userCells: list[classes.Cell] = []
 enemy = classes.Player("e")
+enemyCells: list[classes.Cell] = []
 
 
 # functions
@@ -55,14 +57,16 @@ def startScreen():
     pygame.display.flip()
 
 
-def drawPlayer(button):
+def drawPlayer(button: classes.Cell):
     center = button.pos.center
     radius = min(button.pos.width, button.pos.height) // 2 - 15
     pygame.draw.circle(screen, WHITE, center, radius, 10)
     pygame.display.flip()
+    button.taken = "p"
+    userCells.append(button)
 
 
-def drawEnemy(button):
+def drawEnemy(button: classes.Cell):
     time.sleep(2)
     sPos1 = (button.pos.left + 15, button.pos.top + 15)
     ePos1 = (button.pos.left + button.pos.width - 15, button.pos.top + button.pos.height - 15)
@@ -73,6 +77,7 @@ def drawEnemy(button):
     pygame.draw.line(screen, WHITE, sPos1, ePos1, 15)
     pygame.draw.line(screen, WHITE, sPos2, ePos2, 15)
     pygame.display.flip()
+    button.taken = "e"
     user.move = True
 
 
@@ -103,8 +108,9 @@ def enemyMove(cells: list):
         cells (list): var allBtns
     """
     user.move = False
-    print("userCells:", userCells)
-    logic.possibleMoves(cells)
+    logger.debug(f'userCells: {userCells}')
+    enemyCells.append(logic.startEnemy(cells, enemyCells))
+    drawEnemy(enemyCells[(len(enemyCells) - 1)])
 
 
 # main loop
@@ -127,48 +133,39 @@ while running:
             if user.move:
                 if btn1_1.pos.collidepoint(event.pos) and btn1_1.taken == "f":
                     drawPlayer(btn1_1)
-                    btn1_1.taken = "p"
-                    userCells.append(btn1_1)
+                    logic.win(userCells)
                     enemyMove(allBtns)
                 if btn1_2.pos.collidepoint(event.pos) and btn1_2.taken == "f":
                     drawPlayer(btn1_2)
-                    btn1_2.taken = "p"
-                    userCells.append(btn1_2)
+                    logic.win(userCells)
                     enemyMove(allBtns)
                 if btn1_3.pos.collidepoint(event.pos) and btn1_3.taken == "f":
                     drawPlayer(btn1_3)
-                    btn1_3.taken = "p"
-                    userCells.append(btn1_3)
+                    logic.win(userCells)
                     enemyMove(allBtns)
                 if btn2_1.pos.collidepoint(event.pos) and btn2_1.taken == "f":
                     drawPlayer(btn2_1)
-                    userCells.append(btn2_1)
-                    btn2_1.taken = "p"
+                    logic.win(userCells)
                     enemyMove(allBtns)
                 if btn2_2.pos.collidepoint(event.pos) and btn2_2.taken == "f":
                     drawPlayer(btn2_2)
-                    btn2_2.taken = "p"
-                    userCells.append(btn2_2)
+                    logic.win(userCells)
                     enemyMove(allBtns)
                 if btn2_3.pos.collidepoint(event.pos) and btn2_3.taken == "f":
                     drawPlayer(btn2_3)
-                    userCells.append(btn2_3)
-                    btn2_3.taken = "p"
+                    logic.win(userCells)
                     enemyMove(allBtns)
                 if btn3_1.pos.collidepoint(event.pos) and btn3_1.taken == "f":
                     drawPlayer(btn3_1)
-                    btn3_1.taken = "p"
-                    userCells.append(btn3_1)
+                    logic.win(userCells)
                     enemyMove(allBtns)
                 if btn3_2.pos.collidepoint(event.pos) and btn3_2.taken == "f":
                     drawPlayer(btn3_2)
-                    btn3_2.taken = "p"
-                    userCells.append(btn3_2)
+                    logic.win(userCells)
                     enemyMove(allBtns)
                 if btn3_3.pos.collidepoint(event.pos) and btn3_3.taken == "f":
                     drawPlayer(btn3_3)
-                    btn3_3.taken = "p"
-                    userCells.append(btn3_3)
+                    logic.win(userCells)
                     enemyMove(allBtns)
 
 
