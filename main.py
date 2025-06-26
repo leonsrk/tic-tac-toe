@@ -1,7 +1,6 @@
 import pygame
 import time
-import classes
-import logic
+from classes import *
 from loggerconfig import logger
 
 pygame.init()
@@ -19,25 +18,24 @@ FONT_h1 = pygame.font.SysFont("Arial", 70)
 FONT_h2 = pygame.font.SysFont("Arial", 40)
 
 # buttons
-btn1_1 = classes.Cell(pygame.Rect(105, 105, 190, 190), "f", 1)
-btn1_2 = classes.Cell(pygame.Rect(305, 105, 190, 190), "f", 2)
-btn1_3 = classes.Cell(pygame.Rect(505, 105, 190, 190), "f", 3)
+btn1_1 = Cell(pygame.Rect(105, 105, 190, 190), 1)
+btn1_2 = Cell(pygame.Rect(305, 105, 190, 190), 2)
+btn1_3 = Cell(pygame.Rect(505, 105, 190, 190), 3)
 
-btn2_1 = classes.Cell(pygame.Rect(105, 305, 190, 190), "f", 4)
-btn2_2 = classes.Cell(pygame.Rect(305, 305, 190, 190), "f", 5)
-btn2_3 = classes.Cell(pygame.Rect(505, 305, 190, 190), "f", 6)
+btn2_1 = Cell(pygame.Rect(105, 305, 190, 190), 4)
+btn2_2 = Cell(pygame.Rect(305, 305, 190, 190), 5)
+btn2_3 = Cell(pygame.Rect(505, 305, 190, 190), 6)
 
-btn3_1 = classes.Cell(pygame.Rect(105, 505, 190, 190), "f", 7)
-btn3_2 = classes.Cell(pygame.Rect(305, 505, 190, 190), "f", 8)
-btn3_3 = classes.Cell(pygame.Rect(505, 505, 190, 190), "f", 9)
+btn3_1 = Cell(pygame.Rect(105, 505, 190, 190), 7)
+btn3_2 = Cell(pygame.Rect(305, 505, 190, 190), 8)
+btn3_3 = Cell(pygame.Rect(505, 505, 190, 190), 9)
 
 allBtns = [btn1_1, btn1_2, btn1_3, btn2_1, btn2_2, btn2_3, btn3_1, btn3_2, btn3_3]
 
-# player
-user = classes.Player("p", True)
-userCells: list[classes.Cell] = []
-enemy = classes.Player("e")
-enemyCells: list[classes.Cell] = []
+# game objects
+game = Game()
+user = Player()
+enemy = Enemy()
 
 
 # functions
@@ -57,16 +55,22 @@ def startScreen():
     pygame.display.flip()
 
 
-def drawPlayer(button: classes.Cell):
+def drawPlayer(button: Cell):
     center = button.pos.center
     radius = min(button.pos.width, button.pos.height) // 2 - 15
     pygame.draw.circle(screen, WHITE, center, radius, 10)
     pygame.display.flip()
     button.taken = "p"
-    userCells.append(button)
+    user.cells.append(button)
+    logger.debug(f'userCells: {user.cells}')
+    game.checkWin(user.cells)
+    user.move = False
+    # enemy action after player move
+    enemy.cells.append(enemy.enemyMove(allBtns))
+    drawEnemy(enemy.cells[(len(enemy.cells) - 1)])
 
 
-def drawEnemy(button: classes.Cell):
+def drawEnemy(button: Cell):
     time.sleep(2)
     sPos1 = (button.pos.left + 15, button.pos.top + 15)
     ePos1 = (button.pos.left + button.pos.width - 15, button.pos.top + button.pos.height - 15)
@@ -102,17 +106,6 @@ def gameScreen():
     pygame.display.flip()
 
 
-def enemyMove(cells: list):
-    """Starts enemy move
-    Args:
-        cells (list): var allBtns
-    """
-    user.move = False
-    logger.debug(f'userCells: {userCells}')
-    enemyCells.append(logic.startEnemy(cells, enemyCells))
-    drawEnemy(enemyCells[(len(enemyCells) - 1)])
-
-
 # main loop
 running = True
 startScreen()
@@ -133,40 +126,22 @@ while running:
             if user.move:
                 if btn1_1.pos.collidepoint(event.pos) and btn1_1.taken == "f":
                     drawPlayer(btn1_1)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
                 if btn1_2.pos.collidepoint(event.pos) and btn1_2.taken == "f":
                     drawPlayer(btn1_2)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
                 if btn1_3.pos.collidepoint(event.pos) and btn1_3.taken == "f":
                     drawPlayer(btn1_3)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
                 if btn2_1.pos.collidepoint(event.pos) and btn2_1.taken == "f":
                     drawPlayer(btn2_1)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
                 if btn2_2.pos.collidepoint(event.pos) and btn2_2.taken == "f":
                     drawPlayer(btn2_2)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
                 if btn2_3.pos.collidepoint(event.pos) and btn2_3.taken == "f":
                     drawPlayer(btn2_3)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
                 if btn3_1.pos.collidepoint(event.pos) and btn3_1.taken == "f":
                     drawPlayer(btn3_1)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
                 if btn3_2.pos.collidepoint(event.pos) and btn3_2.taken == "f":
                     drawPlayer(btn3_2)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
                 if btn3_3.pos.collidepoint(event.pos) and btn3_3.taken == "f":
                     drawPlayer(btn3_3)
-                    logic.win(userCells)
-                    enemyMove(allBtns)
 
 
 pygame.quit()
