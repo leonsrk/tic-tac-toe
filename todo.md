@@ -1,3 +1,2 @@
-Convert logic into Objects for the classes and make the code more readable
-Add game ending
+add method for enemy to check for user win
 add sounds and animation
