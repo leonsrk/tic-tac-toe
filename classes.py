@@ -63,6 +63,10 @@ class Enemy(Game):
         self.win = False
 
     def enemyMove(self, allCells: list[Cell]):
+        """returns next enemy move
+        Args:
+            allCells (list): list with all cells, contains objects of Cell
+        """
         return self.possibleMoves(allCells)
 
     def possibleMoves(self, allCells: list[Cell]):
@@ -75,9 +79,13 @@ class Enemy(Game):
             if cell.taken == "f":
                 posMoves.append(cell)
         logger.debug(f'posMoves: {posMoves}')
-        return self.possibleWin(posMoves, allCells)
+        return self.possibleWin(posMoves)
 
-    def possibleWin(self, posMoves: list[Cell], allCells: list[Cell]) -> Cell:
+    def possibleWin(self, posMoves: list[Cell]) -> Cell:
+        """returns winning move or a random move
+        Args:
+            posMoves (list): list with all the possible moves
+        """
         copy = self.cells
         for move in posMoves:
             copy.append(move)
