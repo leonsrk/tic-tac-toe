@@ -63,11 +63,13 @@ def drawPlayer(button: Cell):
     button.taken = "p"
     user.cells.append(button)
     logger.debug(f'userCells: {user.cells}')
-    game.checkWin(user.cells)
     user.move = False
-    # enemy action after player move
-    enemy.cells.append(enemy.enemyMove(allBtns))
-    drawEnemy(enemy.cells[(len(enemy.cells) - 1)])
+    if game.checkWin(user.cells) is True:
+        endScreenWin()
+    else:
+        # enemy action after player move
+        enemy.cells.append(enemy.enemyMove(allBtns))
+        drawEnemy(enemy.cells[(len(enemy.cells) - 1)])
 
 
 def drawEnemy(button: Cell):
@@ -82,7 +84,11 @@ def drawEnemy(button: Cell):
     pygame.draw.line(screen, WHITE, sPos2, ePos2, 15)
     pygame.display.flip()
     button.taken = "e"
-    user.move = True
+
+    if game.checkWin(enemy.cells) is True:
+        endScreenLose()
+    else:
+        user.move = True
 
 
 def gameScreen():
@@ -103,6 +109,24 @@ def gameScreen():
     pygame.draw.rect(screen, BLACK, btn3_2.pos)
     pygame.draw.rect(screen, BLACK, btn3_3.pos)
 
+    pygame.display.flip()
+
+
+def endScreenWin():
+    screen.fill(BLACK)
+    headline = FONT_h1.render("You won!", True, WHITE)
+    headline_rect = headline.get_rect()
+    headline_rect.center = (400, 400)
+    screen.blit(headline, headline_rect)
+    pygame.display.flip()
+
+
+def endScreenLose():
+    screen.fill(BLACK)
+    headline = FONT_h1.render("You lost!", True, WHITE)
+    headline_rect = headline.get_rect()
+    headline_rect.center = (400, 400)
+    screen.blit(headline, headline_rect)
     pygame.display.flip()
 
 
