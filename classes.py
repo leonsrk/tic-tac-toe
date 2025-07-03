@@ -61,6 +61,7 @@ class Enemy(Game):
         self.cells: list[Cell] = []
         self.id = "e"
         self.win = False
+        self.player: Player
 
     def enemyMove(self, allCells: list[Cell]):
         """returns next enemy move
@@ -82,7 +83,7 @@ class Enemy(Game):
         return self.possibleWin(posMoves)
 
     def possibleWin(self, posMoves: list[Cell]) -> Cell:
-        """returns winning move or a random move
+        """returns winning move or the winning move of Player
         Args:
             posMoves (list): list with all the possible moves
         """
@@ -91,6 +92,21 @@ class Enemy(Game):
             copy.append(move)
             if self.checkWin(copy) is True:
                 logger.debug(f'Winning enemy move: {move.num}')
+                return move
+            copy.pop((len(copy) - 1))
+        return self.posPlayerWin(posMoves)
+
+    def posPlayerWin(self, posMoves: list[Cell]) -> Cell:
+        """returns winning move of player or a random move
+        Args:
+            posMoves (list): list with all the possible moves
+        """
+        copy = self.player.cells
+        for move in posMoves:
+            copy.append(move)
+            if self.checkWin(copy) is True:
+                logger.debug(f'Winning player move: {move.num}')
+                copy.pop((len(copy) - 1))
                 return move
             copy.pop((len(copy) - 1))
         return self.randomMove(posMoves)
