@@ -36,6 +36,7 @@ allBtns = [btn1_1, btn1_2, btn1_3, btn2_1, btn2_2, btn2_3, btn3_1, btn3_2, btn3_
 game = Game()
 user = Player()
 enemy = Enemy()
+enemy.player = user
 
 
 # functions
