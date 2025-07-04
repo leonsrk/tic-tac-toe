@@ -4,6 +4,7 @@ from classes import *
 from loggerconfig import logger
 
 pygame.init()
+pygame.mixer.init()
 
 # game settings
 WIDTH, HEIGHT = 800, 800
@@ -16,6 +17,12 @@ WHITE = (255, 255, 255)
 
 FONT_h1 = pygame.font.SysFont("Arial", 70)
 FONT_h2 = pygame.font.SysFont("Arial", 40)
+
+# sounds
+winningSound = pygame.mixer.Sound("sounds/win.mp3")
+losingSound = pygame.mixer.Sound("sounds/lose.mp3")
+startSound = pygame.mixer.Sound("sounds/gamestart.mp3")
+clickingSound = pygame.mixer.Sound("sounds/click.mp3")
 
 # buttons
 btn1_1 = Cell(pygame.Rect(105, 105, 190, 190), 1)
@@ -61,6 +68,7 @@ def drawPlayer(button: Cell):
     radius = min(button.pos.width, button.pos.height) // 2 - 15
     pygame.draw.circle(screen, WHITE, center, radius, 10)
     pygame.display.flip()
+    clickingSound.play()
     button.taken = "p"
     user.cells.append(button)
     logger.debug(f'userCells: {user.cells}')
@@ -84,6 +92,7 @@ def drawEnemy(button: Cell):
     pygame.draw.line(screen, WHITE, sPos1, ePos1, 15)
     pygame.draw.line(screen, WHITE, sPos2, ePos2, 15)
     pygame.display.flip()
+    clickingSound.play()
     button.taken = "e"
 
     if game.checkWin(enemy.cells) is True:
@@ -120,6 +129,7 @@ def endScreenWin():
     headline_rect.center = (400, 400)
     screen.blit(headline, headline_rect)
     pygame.display.flip()
+    winningSound.play()
 
 
 def endScreenLose():
@@ -129,6 +139,7 @@ def endScreenLose():
     headline_rect.center = (400, 400)
     screen.blit(headline, headline_rect)
     pygame.display.flip()
+    losingSound.play()
 
 
 # main loop
@@ -144,6 +155,7 @@ while running:
                 running = False
             if event.key == pygame.K_RETURN:
                 gameScreen()
+                startSound.play()
                 user.move = True
         # mouse input
         if event.type == pygame.MOUSEBUTTONDOWN:
