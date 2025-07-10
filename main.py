@@ -73,8 +73,10 @@ def drawPlayer(button: Cell):
     user.cells.append(button)
     logger.debug(f'userCells: {user.cells}')
     user.move = False
-    if game.checkWin(user.cells) is True:
+    if game.checkWin(user.cells):
         endScreenWin()
+    elif game.isDraw(allBtns):
+        endScreenDraw()
     else:
         # enemy action after player move
         enemy.cells.append(enemy.enemyMove(allBtns))
@@ -95,8 +97,10 @@ def drawEnemy(button: Cell):
     clickingSound.play()
     button.taken = "e"
 
-    if game.checkWin(enemy.cells) is True:
+    if game.checkWin(enemy.cells):
         endScreenLose()
+    elif game.isDraw(allBtns):
+        endScreenDraw()
     else:
         user.move = True
 
@@ -135,6 +139,16 @@ def endScreenWin():
 def endScreenLose():
     screen.fill(BLACK)
     headline = FONT_h1.render("You lost!", True, WHITE)
+    headline_rect = headline.get_rect()
+    headline_rect.center = (400, 400)
+    screen.blit(headline, headline_rect)
+    pygame.display.flip()
+    losingSound.play()
+
+
+def endScreenDraw():
+    screen.fill(BLACK)
+    headline = FONT_h1.render("Draw!", True, WHITE)
     headline_rect = headline.get_rect()
     headline_rect.center = (400, 400)
     screen.blit(headline, headline_rect)
