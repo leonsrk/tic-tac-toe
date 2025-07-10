@@ -1,2 +1,7 @@
 __pycache__/
-todo.md
+*.py[cod]
+*.pyo
+
+# OS data
+.DS_Store
+Thumbs.db
