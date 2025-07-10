@@ -14,7 +14,7 @@ pip install pygame
 
 
 ## Running my game
-To run my TicTacToe game you need to download the source code from this repository and run the main.py file in a IDE of your choice. <br>
+To run my TicTacToe game you need to download the source code from this repository and run the main.py file in a IDE of your choice.
 I recommend [VSCode](https://code.visualstudio.com/download).
 
 
