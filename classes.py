@@ -45,6 +45,18 @@ class Game():
                     return True
         return False
 
+    def isDraw(self, allCells: list[Cell]) -> bool:
+        """Checks if the game is draw
+        Args:
+            allCells (list): list with all cells
+        Return:
+            bool
+        """
+        for cell in allCells:
+            if cell.taken == "f":
+                return False
+        return True
+
 
 class Player():
 
