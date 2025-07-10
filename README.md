@@ -29,6 +29,6 @@ I recommend [VSCode](https://code.visualstudio.com/download).
     ![Preview ingamefootag](screenshots/ingame.png)
 
 
-## Author
+## Authors
 
 - **Leon Schreck**
